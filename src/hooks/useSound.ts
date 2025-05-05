@@ -9,29 +9,20 @@ export default function useSound() {
   const soundsRef = useRef<Record<string, HTMLAudioElement>>({});
   
   useEffect(() => {
-    // Definiere Sounds mit lokaler beep.mp3
     const sounds: Sound[] = [
-      { id: 'countdown', url: '/beep.mp3' },
-      { id: 'phaseChange', url: '/beep.mp3' }
+      { id: 'beep', url: '/bleep-126625.mp3' }
     ];
     
-    // Sounds vorladen
     const loadSound = async (sound: Sound) => {
       try {
         const audio = new Audio(sound.url);
-        
-        // Aktives Laden des Sounds
         await audio.load();
-        
-        // Test-Play (stumm) um Autoplay-Restrictions zu umgehen
         audio.volume = 0;
         await audio.play();
         audio.pause();
         audio.currentTime = 0;
         audio.volume = 1;
-        
         soundsRef.current[sound.id] = audio;
-        console.log(`Sound ${sound.id} erfolgreich geladen`);
       } catch (err) {
         console.warn(`Fehler beim Laden des Sounds ${sound.id}:`, err);
       }
@@ -52,15 +43,15 @@ export default function useSound() {
     };
   }, []);
   
-  const playSound = async (soundId: string) => {
-    const audio = soundsRef.current[soundId];
+  const playSound = async () => {
+    const audio = soundsRef.current['beep'];
     if (audio) {
       try {
         audio.currentTime = 0;
         await audio.play();
         return true;
       } catch (err) {
-        console.warn(`Fehler beim Abspielen des Sounds ${soundId}:`, err);
+        console.warn('Fehler beim Abspielen des Sounds:', err);
         return false;
       }
     }
@@ -68,16 +59,18 @@ export default function useSound() {
   };
 
   const playCountdown = async () => {
-    await playSound('countdown');
+    // 2x kurzer Ton im Abstand von 400ms
+    for (let i = 0; i < 2; i++) {
+      await new Promise(resolve => setTimeout(resolve, i > 0 ? 400 : 0));
+      await playSound();
+    }
   };
 
   const playPhaseChange = async () => {
-    const success = await playSound('phaseChange');
-    if (success) {
-      // Zweiter Piep nach kurzer Verzögerung
-      setTimeout(async () => {
-        await playSound('phaseChange');
-      }, 200);
+    // 1x langer Ton (durch dreimaliges schnelles Abspielen)
+    for (let i = 0; i < 3; i++) {
+      await new Promise(resolve => setTimeout(resolve, i > 0 ? 50 : 0));
+      await playSound();
     }
   };
   

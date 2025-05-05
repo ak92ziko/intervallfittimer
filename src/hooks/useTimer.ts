@@ -20,16 +20,14 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
   const lastTickTime = useRef<number | null>(null);
   const { playCountdown, playPhaseChange } = useSound();
   
-  // Start the timer
   const start = () => {
     if (currentPhase === 'completed') {
-      // Reset if completed
       reset();
     }
     
     if (currentPhase === 'idle') {
       setCurrentPhase('countdown');
-      setTimeLeft(3); // 3-Sekunden-Countdown
+      setTimeLeft(3);
       playCountdown().catch(console.warn);
     }
     
@@ -37,12 +35,10 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
     lastTickTime.current = Date.now();
   };
   
-  // Pause the timer
   const pause = () => {
     setIsRunning(false);
   };
   
-  // Reset the timer
   const reset = () => {
     setIsRunning(false);
     setCurrentSet(1);
@@ -51,31 +47,29 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
     setProgress(0);
   };
   
-  // Skip to next phase or set
   const skipToNext = async () => {
     if (currentPhase === 'countdown') {
       setCurrentPhase('work');
       setTimeLeft(workTime);
       await playPhaseChange();
     } else if (currentPhase === 'work') {
-      await playPhaseChange();
-      setCurrentPhase('rest');
-      setTimeLeft(restTime);
-    } else if (currentPhase === 'rest') {
       if (currentSet < totalSets) {
-        setCurrentSet(prev => prev + 1);
-        setCurrentPhase('countdown');
-        setTimeLeft(3); // 3-Sekunden-Countdown für nächste Workphase
-        await playCountdown();
+        setCurrentPhase('rest');
+        setTimeLeft(restTime);
+        await playPhaseChange();
       } else {
         setCurrentPhase('completed');
         setIsRunning(false);
         if (onComplete) onComplete();
       }
+    } else if (currentPhase === 'rest') {
+      setCurrentSet(prev => prev + 1);
+      setCurrentPhase('work');
+      setTimeLeft(workTime);
+      await playPhaseChange();
     }
   };
   
-  // Calculate progress
   useEffect(() => {
     if (currentPhase === 'countdown') {
       setProgress((3 - timeLeft) / 3 * 100);
@@ -86,7 +80,6 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
     }
   }, [timeLeft, workTime, restTime, currentPhase]);
   
-  // Timer logic
   useEffect(() => {
     if (!isRunning) return;
     
@@ -94,18 +87,18 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
       if (!isRunning || !lastTickTime.current) return;
       
       const now = Date.now();
-      const delta = (now - lastTickTime.current) / 1000; // Convert to seconds
+      const delta = (now - lastTickTime.current) / 1000;
       lastTickTime.current = now;
       
       setTimeLeft(prev => {
         const newTime = Math.max(0, prev - delta);
         
-        // Countdown-Pieptöne während der Countdown-Phase
-        if (currentPhase === 'countdown' && Math.ceil(newTime) !== Math.ceil(prev)) {
+        // Spiele Countdown 2 Sekunden vor Phasenwechsel
+        if ((currentPhase === 'work' || currentPhase === 'rest') && 
+            Math.ceil(prev) > 2 && Math.ceil(newTime) <= 2) {
           playCountdown().catch(console.warn);
         }
         
-        // If timer reaches zero, move to next phase
         if (newTime <= 0) {
           skipToNext().catch(console.warn);
           return 0;
@@ -115,7 +108,7 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
       });
     };
     
-    const timerId = setInterval(updateTimer, 50); // Update more frequently for smoother countdown
+    const timerId = setInterval(updateTimer, 50);
     
     return () => clearInterval(timerId);
   }, [isRunning, currentPhase, currentSet, totalSets, workTime, restTime]);
