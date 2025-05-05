@@ -16,23 +16,28 @@ export default function useSound() {
     ];
     
     // Sounds vorladen
-    sounds.forEach(sound => {
+    const loadSound = async (sound: Sound) => {
       try {
-        const audio = new Audio();
-        audio.onerror = (e) => {
-          console.warn(`Fehler beim Laden des Sounds ${sound.id}:`, e);
-        };
+        const audio = new Audio(sound.url);
         
-        audio.addEventListener('canplaythrough', () => {
-          soundsRef.current[sound.id] = audio;
-        });
+        // Aktives Laden des Sounds
+        await audio.load();
         
-        audio.preload = 'auto';
-        audio.src = sound.url;
+        // Test-Play (stumm) um Autoplay-Restrictions zu umgehen
+        audio.volume = 0;
+        await audio.play();
+        audio.pause();
+        audio.currentTime = 0;
+        audio.volume = 1;
+        
+        soundsRef.current[sound.id] = audio;
+        console.log(`Sound ${sound.id} erfolgreich geladen`);
       } catch (err) {
-        console.warn(`Fehler bei der Sound-Initialisierung ${sound.id}:`, err);
+        console.warn(`Fehler beim Laden des Sounds ${sound.id}:`, err);
       }
-    });
+    };
+    
+    sounds.forEach(loadSound);
     
     return () => {
       Object.values(soundsRef.current).forEach(audio => {
@@ -47,31 +52,32 @@ export default function useSound() {
     };
   }, []);
   
-  const playCountdown = () => {
-    const audio = soundsRef.current['countdown'];
+  const playSound = async (soundId: string) => {
+    const audio = soundsRef.current[soundId];
     if (audio) {
-      audio.currentTime = 0;
-      audio.play().catch(err => {
-        console.warn('Fehler beim Abspielen des Countdown-Sounds:', err);
-      });
+      try {
+        audio.currentTime = 0;
+        await audio.play();
+        return true;
+      } catch (err) {
+        console.warn(`Fehler beim Abspielen des Sounds ${soundId}:`, err);
+        return false;
+      }
     }
+    return false;
   };
 
-  const playPhaseChange = () => {
-    const audio = soundsRef.current['phaseChange'];
-    if (audio) {
-      // Doppelpiep durch schnelle Wiederholung
-      audio.currentTime = 0;
-      audio.play()
-        .then(() => {
-          setTimeout(() => {
-            audio.currentTime = 0;
-            audio.play().catch(console.warn);
-          }, 200);
-        })
-        .catch(err => {
-          console.warn('Fehler beim Abspielen des Phasenwechsel-Sounds:', err);
-        });
+  const playCountdown = async () => {
+    await playSound('countdown');
+  };
+
+  const playPhaseChange = async () => {
+    const success = await playSound('phaseChange');
+    if (success) {
+      // Zweiter Piep nach kurzer Verzögerung
+      setTimeout(async () => {
+        await playSound('phaseChange');
+      }, 200);
     }
   };
   

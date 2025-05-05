@@ -30,6 +30,7 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
     if (currentPhase === 'idle') {
       setCurrentPhase('countdown');
       setTimeLeft(3); // 3-Sekunden-Countdown
+      playCountdown().catch(console.warn);
     }
     
     setIsRunning(true);
@@ -51,13 +52,13 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
   };
   
   // Skip to next phase or set
-  const skipToNext = () => {
+  const skipToNext = async () => {
     if (currentPhase === 'countdown') {
       setCurrentPhase('work');
       setTimeLeft(workTime);
-      playPhaseChange(); // Doppelpiep beim Start der Workphase
+      await playPhaseChange();
     } else if (currentPhase === 'work') {
-      playPhaseChange(); // Doppelpiep beim Ende der Workphase
+      await playPhaseChange();
       setCurrentPhase('rest');
       setTimeLeft(restTime);
     } else if (currentPhase === 'rest') {
@@ -65,6 +66,7 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
         setCurrentSet(prev => prev + 1);
         setCurrentPhase('countdown');
         setTimeLeft(3); // 3-Sekunden-Countdown für nächste Workphase
+        await playCountdown();
       } else {
         setCurrentPhase('completed');
         setIsRunning(false);
@@ -100,12 +102,12 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
         
         // Countdown-Pieptöne während der Countdown-Phase
         if (currentPhase === 'countdown' && Math.ceil(newTime) !== Math.ceil(prev)) {
-          playCountdown();
+          playCountdown().catch(console.warn);
         }
         
         // If timer reaches zero, move to next phase
         if (newTime <= 0) {
-          skipToNext();
+          skipToNext().catch(console.warn);
           return 0;
         }
         
