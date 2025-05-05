@@ -27,7 +27,7 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
     
     if (currentPhase === 'idle') {
       setCurrentPhase('countdown');
-      setTimeLeft(3);
+      setTimeLeft(5); // Auf 5 Sekunden erhöht
       playCountdown().catch(console.warn);
     }
     
@@ -72,7 +72,7 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
   
   useEffect(() => {
     if (currentPhase === 'countdown') {
-      setProgress((3 - timeLeft) / 3 * 100);
+      setProgress((5 - timeLeft) / 5 * 100); // Angepasst für 5-Sekunden-Countdown
     } else if (currentPhase === 'work') {
       setProgress((workTime - timeLeft) / workTime * 100);
     } else if (currentPhase === 'rest') {
@@ -93,13 +93,15 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
       setTimeLeft(prev => {
         const newTime = Math.max(0, prev - delta);
         
-        // Spiele Countdown 2 Sekunden vor Phasenwechsel
+        // Spiele den Phasenwechsel-Sound 4 Sekunden vor Ende
         if ((currentPhase === 'work' || currentPhase === 'rest') && 
-            Math.ceil(prev) > 2 && Math.ceil(newTime) <= 2) {
+            Math.ceil(prev) > 4 && Math.ceil(newTime) <= 4) {
           playCountdown().catch(console.warn);
         }
         
         if (newTime <= 0) {
+          // Spiele den Phasenende-Sound beim Wechsel
+          playPhaseChange().catch(console.warn);
           skipToNext().catch(console.warn);
           return 0;
         }

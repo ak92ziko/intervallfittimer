@@ -10,7 +10,8 @@ export default function useSound() {
   
   useEffect(() => {
     const sounds: Sound[] = [
-      { id: 'beep', url: '/bleep-126625.mp3' }
+      { id: 'phaseEnd', url: '/bleep-126625.mp3' },
+      { id: 'phaseChange', url: '/microwave-finished-82491.mp3' }
     ];
     
     const loadSound = async (sound: Sound) => {
@@ -43,8 +44,8 @@ export default function useSound() {
     };
   }, []);
   
-  const playSound = async () => {
-    const audio = soundsRef.current['beep'];
+  const playSound = async (soundId: string) => {
+    const audio = soundsRef.current[soundId];
     if (audio) {
       try {
         audio.currentTime = 0;
@@ -59,19 +60,13 @@ export default function useSound() {
   };
 
   const playCountdown = async () => {
-    // 2x kurzer Ton im Abstand von 400ms
-    for (let i = 0; i < 2; i++) {
-      await new Promise(resolve => setTimeout(resolve, i > 0 ? 400 : 0));
-      await playSound();
-    }
+    // Spielt den Phasenwechsel-Sound (Mikrowelle)
+    await playSound('phaseChange');
   };
 
   const playPhaseChange = async () => {
-    // 1x langer Ton (durch dreimaliges schnelles Abspielen)
-    for (let i = 0; i < 3; i++) {
-      await new Promise(resolve => setTimeout(resolve, i > 0 ? 50 : 0));
-      await playSound();
-    }
+    // Spielt den Phasenende-Sound (Bleep)
+    await playSound('phaseEnd');
   };
   
   return { playCountdown, playPhaseChange };
