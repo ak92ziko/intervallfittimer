@@ -1,0 +1,57 @@
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.timer-display {
+  font-variant-numeric: tabular-nums;
+}
+
+.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 50;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+.phase-transition {
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .timer-display {
+    font-size: 5rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .timer-display {
+    font-size: 7rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .timer-display {
+    font-size: 9rem;
+  }
+}
