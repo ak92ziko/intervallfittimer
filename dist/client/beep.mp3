@@ -1,0 +1,2 @@
+// This is a placeholder for a sound file that will be downloaded at runtime.
+// The actual sound will be loaded via URL in the useSound hook.
