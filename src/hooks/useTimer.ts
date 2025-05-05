@@ -18,7 +18,7 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
   const [progress, setProgress] = useState(0);
   
   const lastTickTime = useRef<number | null>(null);
-  const { play } = useSound();
+  const { playCountdown, playPhaseChange } = useSound();
   
   // Start the timer
   const start = () => {
@@ -29,7 +29,7 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
     
     if (currentPhase === 'idle') {
       setCurrentPhase('countdown');
-      setTimeLeft(5); // 5-second countdown
+      setTimeLeft(3); // 3-Sekunden-Countdown
     }
     
     setIsRunning(true);
@@ -55,20 +55,16 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
     if (currentPhase === 'countdown') {
       setCurrentPhase('work');
       setTimeLeft(workTime);
-      play('workStart');
-      play('workStart'); // Double beep for work phase start
+      playPhaseChange(); // Doppelpiep beim Start der Workphase
     } else if (currentPhase === 'work') {
+      playPhaseChange(); // Doppelpiep beim Ende der Workphase
       setCurrentPhase('rest');
       setTimeLeft(restTime);
-      play('restStart');
-      setTimeout(() => play('restStart'), 200); // Double beep with slight delay for rest phase
     } else if (currentPhase === 'rest') {
       if (currentSet < totalSets) {
         setCurrentSet(prev => prev + 1);
-        setCurrentPhase('work');
-        setTimeLeft(workTime);
-        play('workStart');
-        setTimeout(() => play('workStart'), 200); // Double beep for work phase start
+        setCurrentPhase('countdown');
+        setTimeLeft(3); // 3-Sekunden-Countdown für nächste Workphase
       } else {
         setCurrentPhase('completed');
         setIsRunning(false);
@@ -80,7 +76,7 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
   // Calculate progress
   useEffect(() => {
     if (currentPhase === 'countdown') {
-      setProgress((5 - timeLeft) / 5 * 100);
+      setProgress((3 - timeLeft) / 3 * 100);
     } else if (currentPhase === 'work') {
       setProgress((workTime - timeLeft) / workTime * 100);
     } else if (currentPhase === 'rest') {
@@ -102,9 +98,9 @@ export default function useTimer({ totalSets, workTime, restTime, onComplete }: 
       setTimeLeft(prev => {
         const newTime = Math.max(0, prev - delta);
         
-        // Play countdown sound in last 2 seconds of each phase
-        if (newTime <= 2 && newTime > 1.9) {
-          play('countdown');
+        // Countdown-Pieptöne während der Countdown-Phase
+        if (currentPhase === 'countdown' && Math.ceil(newTime) !== Math.ceil(prev)) {
+          playCountdown();
         }
         
         // If timer reaches zero, move to next phase
