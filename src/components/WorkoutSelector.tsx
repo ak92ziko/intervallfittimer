@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Dumbbell, Clock, Plus, Minus } from 'lucide-react';
 import { useTimerContext } from '../context/TimerContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -48,10 +47,10 @@ export default function WorkoutSelector({ onSelectWorkout }: WorkoutSelectorProp
         <div className="grid gap-4 md:grid-cols-3 mb-6">
           {/* Number of Sets */}
           <div className="bg-slate-800 rounded-lg p-4">
-            <label className="block text-sm text-slate-300 mb-2">
+            <label className="block text-sm text-slate-300 mb-2 text-center">
               {t('workout.sets')}
             </label>
-            <div className="flex items-center">
+            <div className="flex items-center justify-center">
               <button
                 onClick={() => adjustValue(setWorkoutSets, workoutSets, -1, 1, 30)}
                 className="p-2 bg-slate-700 hover:bg-slate-600 rounded-l-lg"
@@ -72,10 +71,10 @@ export default function WorkoutSelector({ onSelectWorkout }: WorkoutSelectorProp
           
           {/* Work Time */}
           <div className="bg-slate-800 rounded-lg p-4">
-            <label className="block text-sm text-slate-300 mb-2">
+            <label className="block text-sm text-slate-300 mb-2 text-center">
               {t('workout.workTime')}
             </label>
-            <div className="flex items-center">
+            <div className="flex items-center justify-center">
               <button
                 onClick={() => adjustValue(setWorkTime, workTime, -5, 5, 300)}
                 className="p-2 bg-slate-700 hover:bg-slate-600 rounded-l-lg"
@@ -96,10 +95,10 @@ export default function WorkoutSelector({ onSelectWorkout }: WorkoutSelectorProp
           
           {/* Rest Time */}
           <div className="bg-slate-800 rounded-lg p-4">
-            <label className="block text-sm text-slate-300 mb-2">
+            <label className="block text-sm text-slate-300 mb-2 text-center">
               {t('workout.restTime')}
             </label>
-            <div className="flex items-center">
+            <div className="flex items-center justify-center">
               <button
                 onClick={() => adjustValue(setRestTime, restTime, -5, 5, 300)}
                 className="p-2 bg-slate-700 hover:bg-slate-600 rounded-l-lg"
