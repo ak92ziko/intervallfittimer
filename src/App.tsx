@@ -33,8 +33,11 @@ function MainContent() {
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white flex flex-col">
-      <header className="p-4 flex items-center justify-between">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white flex flex-col" style={{
+      paddingTop: 'var(--safe-area-top)',
+      paddingBottom: 'var(--safe-area-bottom)'
+    }}>
+      <header className="p-4 flex items-center justify-between sticky top-0 bg-slate-900/75 backdrop-blur-sm z-10">
         <div className="flex-1" />
         <div className="flex items-center gap-2">
           <Dumbbell className="h-8 w-8 text-red-500" />
