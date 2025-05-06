@@ -60,7 +60,7 @@ const translations = {
     'privacy.storage.title': '4. Data Storage',
     'privacy.storage.content': 'All workout configurations and settings are stored locally on your device and are never transmitted to any servers.',
     'privacy.contact.title': '5. Contact',
-    'privacy.contact.content': 'For privacy-related questions, please contact us at privacy@intervalfit.example.com',
+    'privacy.contact.content': 'For privacy-related questions, please contact us at ak92ziko@gmail.com',
     
     // Imprint
     'imprint.title': 'Imprint',
@@ -117,7 +117,7 @@ const translations = {
     'privacy.storage.title': '4. Datenspeicherung',
     'privacy.storage.content': 'Alle Workout-Konfigurationen und Einstellungen werden lokal auf Ihrem Gerät gespeichert und niemals an Server übertragen.',
     'privacy.contact.title': '5. Kontakt',
-    'privacy.contact.content': 'Bei Fragen zum Datenschutz kontaktieren Sie uns bitte unter privacy@intervalfit.example.com',
+    'privacy.contact.content': 'Bei Fragen zum Datenschutz kontaktieren Sie uns bitte unter ak92ziko@gmail.com',
     
     // Imprint
     'imprint.title': 'Impressum',
