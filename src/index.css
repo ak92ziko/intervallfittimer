@@ -2,10 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Füge safe-area-inset Unterstützung hinzu */
 :root {
-  --safe-area-top: env(safe-area-inset-top, 20px);
-  --safe-area-bottom: env(safe-area-inset-bottom, 20px);
+  --safe-area-top: env(safe-area-inset-top, 24px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 24px);
 }
 
 body {
@@ -13,6 +12,7 @@ body {
   padding: 0;
   min-height: 100vh;
   min-height: -webkit-fill-available;
+  background-color: #0f172a; /* slate-900 */
 }
 
 html {

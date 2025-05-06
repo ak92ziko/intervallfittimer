@@ -5,7 +5,9 @@ export default function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="p-4 text-center text-slate-400 text-sm">
+    <footer className="p-4 text-center text-slate-400 text-sm" style={{
+      paddingBottom: 'calc(var(--safe-area-bottom) + 1rem)'
+    }}>
       <div className="flex justify-center items-center gap-4">
         <Link 
           to="/privacy"
