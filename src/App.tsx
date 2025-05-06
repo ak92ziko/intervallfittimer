@@ -35,9 +35,9 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white flex flex-col">
       <header className="sticky top-0 z-10" style={{ paddingTop: 'var(--safe-area-top)' }}>
-        <div className="py-12 px-4 flex items-center justify-between bg-slate-900/75 backdrop-blur-sm">
-          <div className="flex-1 basis-14" />
-          <div className="flex items-center gap-2">
+        <div className="py-14 px-4 flex items-center justify-between bg-slate-900/75 backdrop-blur-sm">
+          <div className="flex-1 basis-10" />
+          <div className="flex items-center gap-2 -ml-4">
             <Dumbbell className="h-8 w-8 text-red-500" />
             <h1 className="text-2xl font-bold">IntervalFit Timer</h1>
           </div>
