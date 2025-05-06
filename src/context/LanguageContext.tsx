@@ -64,7 +64,7 @@ const translations = {
     
     // Imprint
     'imprint.title': 'Imprint',
-    'imprint.content': 'Angaben gemäß § 5 DDG:\nAlexander Knoth\nLudwigstr. 12B\n04315 Leipzig\nGermany\n\nContact\n\nEmail: info@instantsportsreplay.app'
+    'imprint.content': 'Angaben gemäß § 5 DDG:\nAlexander Knoth\nLudwigstr. 12B\n04315 Leipzig\nGermany\n\nContact\n\nEmail: ak92ziko@gmail.com'
   },
   de: {
     // General
@@ -121,7 +121,7 @@ const translations = {
     
     // Imprint
     'imprint.title': 'Impressum',
-    'imprint.content': 'Angaben gemäß § 5 DDG:\nAlexander Knoth\nLudwigstr. 12B\n04315 Leipzig\nGermany\n\nKontakt\n\nE-Mail: info@instantsportsreplay.app'
+    'imprint.content': 'Angaben gemäß § 5 DDG:\nAlexander Knoth\nLudwigstr. 12B\n04315 Leipzig\nGermany\n\nKontakt\n\nE-Mail: ak92ziko@gmail.com'
   }
 };
 

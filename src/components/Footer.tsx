@@ -1,12 +1,7 @@
-import { Wrench } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 
-interface FooterProps {
-  onShowTools: () => void;
-}
-
-export default function Footer({ onShowTools }: FooterProps) {
+export default function Footer() {
   const { t } = useLanguage();
 
   return (
@@ -25,14 +20,6 @@ export default function Footer({ onShowTools }: FooterProps) {
         >
           {t('footer.imprint')}
         </Link>
-        <span>•</span>
-        <button 
-          onClick={onShowTools}
-          className="hover:text-white transition flex items-center gap-1"
-        >
-          <Wrench size={14} />
-          <span>{t('tools.more')}</span>
-        </button>
       </div>
       <p className="mt-2">{t('app.copyright')}</p>
     </footer>
