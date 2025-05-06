@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useLanguage } from '../context/LanguageContext';
 
-const Footer = () => {
-  const { t } = useTranslation();
+export default function Footer() {
+  const { t } = useLanguage();
 
   return (
-    <footer className="mt-auto py-8 px-4">
+    <footer className="p-4 text-center text-slate-400 text-sm">
       <div className="flex justify-center items-center gap-4">
         <Link 
           to="/privacy"
@@ -24,6 +24,4 @@ const Footer = () => {
       <p className="mt-2">{t('app.copyright')}</p>
     </footer>
   );
-};
-
-export default Footer;
+}
