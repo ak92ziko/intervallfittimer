@@ -35,7 +35,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white flex flex-col">
       <header className="sticky top-0 z-10" style={{ paddingTop: 'var(--safe-area-top)' }}>
-        <div className="h-28 px-4 bg-slate-900/75 backdrop-blur-sm flex flex-col justify-end pb-3">
+        <div className="h-20 px-4 bg-slate-900/75 backdrop-blur-sm flex flex-col justify-end pb-3">
           <div className="flex items-center justify-between">
             <div className="flex-1 basis-10" />
             <div className="flex items-center gap-2 -ml-4">
