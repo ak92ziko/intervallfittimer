@@ -5,8 +5,8 @@ export default function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="text-center text-slate-400 text-sm">
-      <div className="flex justify-center items-center gap-4 pt-0">
+    <footer className="text-center text-slate-400 text-sm pb-4">
+      <div className="flex justify-center items-center gap-4">
         <Link 
           to="/privacy"
           className="hover:text-white transition"
@@ -22,7 +22,7 @@ export default function Footer() {
         </Link>
       </div>
       <p className="mt-1">{t('app.copyright')}</p>
-      <div className="h-16"></div>
+      <div className="h-4"></div>
     </footer>
   );
 }
