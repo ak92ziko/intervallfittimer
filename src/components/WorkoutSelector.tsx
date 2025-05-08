@@ -3,6 +3,7 @@ import { useTimerContext } from '../context/TimerContext';
 import { useLanguage } from '../context/LanguageContext';
 import workoutPresets from '../utils/workoutPresets';
 import { formatTime } from '../utils/formatTime';
+import VolumeControl from './VolumeControl';
 
 interface WorkoutSelectorProps {
   onSelectWorkout: () => void;
@@ -116,6 +117,11 @@ export default function WorkoutSelector({ onSelectWorkout }: WorkoutSelectorProp
               </button>
             </div>
           </div>
+        </div>
+
+        {/* Volume Control */}
+        <div className="mb-6">
+          <VolumeControl />
         </div>
         
         <div className="text-center text-slate-300 mb-6">

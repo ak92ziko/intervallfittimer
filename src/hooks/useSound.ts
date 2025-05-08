@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useTimerContext } from '../context/TimerContext';
 
 interface Sound {
   id: string;
@@ -7,6 +8,7 @@ interface Sound {
 
 export default function useSound() {
   const soundsRef = useRef<Record<string, HTMLAudioElement>>({});
+  const { volume } = useTimerContext();
   
   useEffect(() => {
     const sounds: Sound[] = [
@@ -22,7 +24,7 @@ export default function useSound() {
         await audio.play();
         audio.pause();
         audio.currentTime = 0;
-        audio.volume = 1;
+        audio.volume = volume;
         soundsRef.current[sound.id] = audio;
       } catch (err) {
         console.warn(`Fehler beim Laden des Sounds ${sound.id}:`, err);
@@ -42,13 +44,21 @@ export default function useSound() {
       });
       soundsRef.current = {};
     };
-  }, []);
+  }, [volume]);
+  
+  // Update Lautstärke wenn sie sich ändert
+  useEffect(() => {
+    Object.values(soundsRef.current).forEach(audio => {
+      audio.volume = volume;
+    });
+  }, [volume]);
   
   const playSound = async (soundId: string) => {
     const audio = soundsRef.current[soundId];
     if (audio) {
       try {
         audio.currentTime = 0;
+        audio.volume = volume;
         await audio.play();
         return true;
       } catch (err) {

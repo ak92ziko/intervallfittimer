@@ -12,6 +12,8 @@ interface TimerContextType {
   setRestTime: (time: number) => void;
   workoutDescription: string;
   setWorkoutDescription: (desc: string) => void;
+  volume: number;
+  setVolume: (volume: number) => void;
   applyPreset: (preset: WorkoutPreset) => void;
 }
 
@@ -23,6 +25,7 @@ export function TimerProvider({ children }: { children: ReactNode }) {
   const [workTime, setWorkTime] = useState(30);
   const [restTime, setRestTime] = useState(30);
   const [workoutDescription, setWorkoutDescription] = useState('');
+  const [volume, setVolume] = useState(1); // Default Lautstärke ist 1 (100%)
 
   const applyPreset = (preset: WorkoutPreset) => {
     setWorkoutTitle(preset.title);
@@ -45,6 +48,8 @@ export function TimerProvider({ children }: { children: ReactNode }) {
         setRestTime,
         workoutDescription,
         setWorkoutDescription,
+        volume,
+        setVolume,
         applyPreset,
       }}
     >

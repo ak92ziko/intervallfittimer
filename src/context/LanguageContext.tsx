@@ -14,6 +14,9 @@ const translations = {
     'app.title': 'IntervalFit Timer',
     'app.copyright': '© 2025 IntervalFit Timer | Designed for peak performance',
     
+    // Volume Control
+    'volume.label': 'Sound Volume',
+    
     // Workout Selector
     'workout.configure': 'Configure Your Workout',
     'workout.sets': 'Number of Sets',
@@ -70,6 +73,9 @@ const translations = {
     // General
     'app.title': 'IntervalFit Timer',
     'app.copyright': '© 2025 IntervalFit Timer | Entwickelt für Höchstleistung',
+    
+    // Volume Control
+    'volume.label': 'Signallautstärke',
     
     // Workout Selector
     'workout.configure': 'Workout konfigurieren',
